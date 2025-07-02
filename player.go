@@ -1,11 +1,16 @@
 package main
 
-import "github.com/hajimehoshi/ebiten/v2"
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
+)
 
 type Gubby struct {
 	x, y        float64
 	facingRight bool
 	speed       float64
+	health      int
+	maxHealth   int
 }
 
 func NewGubby(x, y float64) *Gubby {
@@ -13,7 +18,9 @@ func NewGubby(x, y float64) *Gubby {
 		x:           x,
 		y:           y,
 		facingRight: false,
-		speed:       120,
+		speed:       240,
+		health:      5,
+		maxHealth:   5,
 	}
 }
 
@@ -34,15 +41,25 @@ func (g *Gubby) Update() {
 		g.x += moveAmount
 		g.facingRight = true
 	}
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		if g.health > 0 {
+			g.health--
+		}
+	}
+	if inpututil.IsKeyJustPressed(ebiten.KeyComma) {
+		if g.health < g.maxHealth {
+			g.health++
+		}
+	}
 }
 
 func (g *Gubby) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(0.25, 0.25)
+	op.GeoM.Scale(0.35, 0.35)
 
 	if g.facingRight {
 		op.GeoM.Scale(-1, 1)
-		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.25
+		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.35
 		op.GeoM.Translate(scaledWidth, 0)
 	}
 	op.GeoM.Translate(g.x, g.y)
