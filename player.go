@@ -51,7 +51,7 @@ func (g *Gubby) Update() {
 			g.health++
 		}
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyR) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
 		g.swordAct = true
 		g.swordTimer = 15
 	}
@@ -82,7 +82,7 @@ func (g *Gubby) Draw(screen *ebiten.Image) {
 		currentSprite = swing1Image
 		scale = 0.80
 		offsetX, offsetY = -75.0, -110.0
-		if g.swordTimer < 14 {
+		if g.swordTimer < 9 {
 			currentSprite = swing2Image
 			scale = 0.90
 			if g.facingRight {
