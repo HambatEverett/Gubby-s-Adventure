@@ -68,22 +68,34 @@ func (g *Gubby) Update() {
 func (g *Gubby) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.Filter = ebiten.FilterLinear
-	op.GeoM.Scale(0.40, 0.40)
+	op.GeoM.Scale(0.50, 0.50)
 	if g.facingRight {
 		op.GeoM.Scale(-1, 1)
-		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.40
+		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.50
 		op.GeoM.Translate(scaledWidth, 0)
 	}
-
-	op.GeoM.Translate(-70, -70)
 	op.GeoM.Translate(g.x, g.y)
 
 	currentSprite := gubbyImage
+	scale := 0.70
+	offsetX, offsetY := -70.0, -70.0 // default for idle
+
 	if g.swordAct {
 		currentSprite = swing1Image
+		scale = 0.80
+		offsetX, offsetY = -135.0, -150.0 // adjust these manually for swing1
 		if g.swordTimer < 14 {
 			currentSprite = swing2Image
+			scale = 0.90
+			if g.facingRight {
+				offsetX, offsetY = -140.0, -150.0
+			} else {
+				offsetX, offsetY = -205.0, -150.0
+			}
 		}
 	}
+
+	op.GeoM.Scale(scale, scale)
+	op.GeoM.Translate(offsetX, offsetY)
 	screen.DrawImage(currentSprite, op)
 }
