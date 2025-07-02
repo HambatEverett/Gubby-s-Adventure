@@ -25,7 +25,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{50, 50, 100, 255})
 	g.gubby.Draw(screen)
 
-	for i := 0; i < int(g.gubby.maxHealth); i++ {
+	for i := 0; i < 5; i++ {
 		op := &ebiten.DrawImageOptions{}
 		op.GeoM.Scale(0.5, 0.5)
 

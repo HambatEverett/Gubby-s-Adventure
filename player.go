@@ -10,7 +10,6 @@ type Gubby struct {
 	facingRight bool
 	speed       float64
 	health      int
-	maxHealth   int
 }
 
 func NewGubby(x, y float64) *Gubby {
@@ -20,7 +19,6 @@ func NewGubby(x, y float64) *Gubby {
 		facingRight: false,
 		speed:       240,
 		health:      5,
-		maxHealth:   5,
 	}
 }
 
@@ -47,7 +45,7 @@ func (g *Gubby) Update() {
 		}
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyComma) {
-		if g.health < g.maxHealth {
+		if g.health < 5 {
 			g.health++
 		}
 	}
@@ -55,11 +53,12 @@ func (g *Gubby) Update() {
 
 func (g *Gubby) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(0.35, 0.35)
+	op.Filter = ebiten.FilterLinear
+	op.GeoM.Scale(0.32, 0.32)
 
 	if g.facingRight {
 		op.GeoM.Scale(-1, 1)
-		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.35
+		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.32
 		op.GeoM.Translate(scaledWidth, 0)
 	}
 	op.GeoM.Translate(g.x, g.y)
