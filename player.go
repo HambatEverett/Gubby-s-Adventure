@@ -10,6 +10,8 @@ type Gubby struct {
 	facingRight bool
 	speed       float64
 	health      int
+	swordAct    bool
+	swordTimer  int
 }
 
 func NewGubby(x, y float64) *Gubby {
@@ -49,18 +51,39 @@ func (g *Gubby) Update() {
 			g.health++
 		}
 	}
+	if ebiten.IsKeyPressed(ebiten.KeyR) {
+		g.swordAct = true
+		g.swordTimer = 15
+	}
+
+	if g.swordAct {
+		g.swordTimer--
+		if g.swordTimer <= 0 {
+			g.swordAct = false
+		}
+	}
+
 }
 
 func (g *Gubby) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.Filter = ebiten.FilterLinear
-	op.GeoM.Scale(0.32, 0.32)
-
+	op.GeoM.Scale(0.40, 0.40)
 	if g.facingRight {
 		op.GeoM.Scale(-1, 1)
-		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.32
+		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.40
 		op.GeoM.Translate(scaledWidth, 0)
 	}
+
+	op.GeoM.Translate(-70, -70)
 	op.GeoM.Translate(g.x, g.y)
-	screen.DrawImage(gubbyImage, op)
+
+	currentSprite := gubbyImage
+	if g.swordAct {
+		currentSprite = swing1Image
+		if g.swordTimer < 14 {
+			currentSprite = swing2Image
+		}
+	}
+	screen.DrawImage(currentSprite, op)
 }
