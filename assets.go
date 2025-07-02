@@ -24,12 +24,16 @@ var swing1ImageData []byte
 //go:embed images/gubby/sword/downswing.png
 var swing2ImageData []byte
 
+//go:embed images/tdummy.png
+var dummyImageData []byte
+
 var (
 	gubbyImage   *ebiten.Image
 	carrotImage  *ebiten.Image
 	eCarrotImage *ebiten.Image
 	swing1Image  *ebiten.Image
 	swing2Image  *ebiten.Image
+	dummyImage   *ebiten.Image
 )
 
 func init() {
@@ -70,4 +74,12 @@ func init() {
 		panic(err)
 	}
 	swing2Image = ebiten.NewImageFromImage(img)
+
+	// ok fine ill stop
+
+	img, _, err = image.Decode(bytes.NewReader(dummyImageData))
+	if err != nil {
+		panic(err)
+	}
+	dummyImage = ebiten.NewImageFromImage(img)
 }

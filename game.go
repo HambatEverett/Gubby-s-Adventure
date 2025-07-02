@@ -43,6 +43,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			screen.DrawImage(eCarrotImage, op)
 		}
 	}
+
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(0.50, 0.50)
+	op.GeoM.Translate(20, 20)
+	screen.DrawImage(dummyImage, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
