@@ -62,7 +62,6 @@ func (g *Gubby) Update() {
 			g.swordAct = false
 		}
 	}
-
 }
 
 func (g *Gubby) Draw(screen *ebiten.Image) {
@@ -74,7 +73,6 @@ func (g *Gubby) Draw(screen *ebiten.Image) {
 		scaledWidth := float64(gubbyImage.Bounds().Dx()) * 0.50
 		op.GeoM.Translate(scaledWidth, 0)
 	}
-	op.GeoM.Translate(g.x, g.y)
 
 	currentSprite := gubbyImage
 	scale := 0.70
@@ -83,19 +81,20 @@ func (g *Gubby) Draw(screen *ebiten.Image) {
 	if g.swordAct {
 		currentSprite = swing1Image
 		scale = 0.80
-		offsetX, offsetY = -135.0, -150.0 // adjust these manually for swing1
+		offsetX, offsetY = -75.0, -110.0
 		if g.swordTimer < 14 {
 			currentSprite = swing2Image
 			scale = 0.90
 			if g.facingRight {
-				offsetX, offsetY = -140.0, -150.0
+				offsetX, offsetY = -45.0, -100.0
 			} else {
-				offsetX, offsetY = -205.0, -150.0
+				offsetX, offsetY = -125.0, -100.0
 			}
 		}
 	}
 
 	op.GeoM.Scale(scale, scale)
 	op.GeoM.Translate(offsetX, offsetY)
+	op.GeoM.Translate(g.x, g.y)
 	screen.DrawImage(currentSprite, op)
 }
